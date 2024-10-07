@@ -67,6 +67,14 @@ public class LevelGenerator
         }
         yield return null;
     }
+
+    public IEnumerator Pause()
+    {
+        if (God.GameSpeed > 0)
+            yield return new WaitForSecondsRealtime(God.GameSpeed);
+        else
+            yield return null;
+    }
 }
 
 public enum TileTypes

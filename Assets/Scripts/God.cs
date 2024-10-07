@@ -4,6 +4,8 @@ using UnityEngine;
 
 public static class God
 {
+    public static float GameSpeed = 1 / 20f;
+    
     public static PlayerMovement Player;
     public static Camera Cam;
     public static GameManager GM;

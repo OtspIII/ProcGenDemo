@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        // if (God.GM == null || !God.GM.GenerationComplete) return;
         Vector2 vel = Vector2.zero;
         if (Input.GetKey(KeyCode.RightArrow))
             vel.x = Speed;

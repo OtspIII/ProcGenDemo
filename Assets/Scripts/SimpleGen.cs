@@ -23,10 +23,11 @@ public class SimpleGen : LevelGenerator
         foreach (Vector2Int f in floors)
         {
             gm.SpawnTile(f,TileTypes.Floor);
-            yield return null;
+            yield return gm.StartCoroutine(Pause());
         }
 
-        yield return gm.StartCoroutine(WaitForPress());
+        yield return gm.StartCoroutine(WaitForPress("Press space to build walls. . ."));
+        God.GM.SetStatus("Building Walls");
         
         List<Vector2Int> walls = FindWalls();
         
@@ -34,8 +35,10 @@ public class SimpleGen : LevelGenerator
         {
             AddTile(f.x,f.y,TileTypes.Wall);
             gm.SpawnTile(f,TileTypes.Wall);
-            yield return null;
+            yield return gm.StartCoroutine(Pause());
         }
+        yield return gm.StartCoroutine(WaitForPress("Build complete!"));
+        God.GM.SetStatus("");
 
     }
 }

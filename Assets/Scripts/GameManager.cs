@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     
     public GameObject FloorPrefab;
     public GameObject WallPrefab;
+
+    public bool GenerationComplete = false;
     
     public Dictionary<int, Dictionary<int, bool>> Map = new Dictionary<int, Dictionary<int, bool>>();
 
@@ -25,9 +27,15 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        God.Cam.orthographicSize = Mathf.Max(LevelSize.x / 2f,LevelSize.y * 0.8f);
+        Time.timeScale = 0;
+        God.Cam.orthographicSize = Mathf.Max((LevelSize.x+2) / 3.2f,(LevelSize.y+2) / 2f);
+        StartCoroutine(BuildLevel(Method));
+    }
+
+    public IEnumerator BuildLevel(LevelGenMethod method)
+    {
         LevelGenerator gen = null;
-        switch (Method)
+        switch (method)
         {
             case LevelGenMethod.Simple:{ gen = new SimpleGen(); break; }
             case LevelGenMethod.Rogue:{ gen = new RogueGen(); break; }
@@ -37,9 +45,11 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
-        if(gen != null) StartCoroutine(gen.BuildLevel(this));
+        if(gen != null) yield return StartCoroutine(gen.BuildLevel(this));
+        GenerationComplete = true;
+        Time.timeScale = 1;
     }
-
+    
     public void SpawnTile(Vector2Int where,TileTypes type)
     {
         GameObject pref = null;

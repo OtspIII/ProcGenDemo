@@ -66,6 +66,15 @@ public class GameManager : MonoBehaviour
         Instantiate(pref, new Vector3(where.x,where.y,50), Quaternion.identity);
     }
 
+    public void SpawnShape(RectInt shape, TileTypes type)
+    {
+        for (int x = shape.x; x < shape.x + shape.width; x++)
+        for (int y = shape.y; y < shape.y + shape.height; y++)
+        {
+            SpawnTile(new Vector2Int(x,y),type);
+        }
+    }
+
     public void SetStatus(string txt)
     {
         Status.text = txt;
